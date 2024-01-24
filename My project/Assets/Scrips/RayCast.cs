@@ -7,13 +7,19 @@ public class RayCast : MonoBehaviour
     [SerializeField] private Transform shootPoint;
     void Update()
     {
-        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward * 20), Color.green); 
-        Vector3 diraction = Vector3.forward;
+        Debug.DrawRay(shootPoint.transform.position, transform.TransformDirection(Vector3.forward)* 20, Color.green);
         if (Physics.Raycast(shootPoint.transform.position,
                 transform.TransformDirection(Vector3.forward),
                 out RaycastHit hitInfo, 20f))
         {
-           
+            if (hitInfo.collider.tag == "star")
+            {
+                Debug.Log($"Hit {hitInfo.collider.gameObject.tag}");
+                Debug.DrawRay(shootPoint.transform.position, transform.TransformDirection(Vector3.forward ) * 20, Color.red);
+                hitInfo.transform.GetComponent<Renderer>().material.color = Color.red;
+                hitInfo.transform.GetComponent<Rigidbody>().useGravity = true; 
+
+            }
         }
         
         
